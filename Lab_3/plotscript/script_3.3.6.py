@@ -20,20 +20,20 @@
 #
 #
 # Packages to install: (pip install)
-#       pandas, matplotlib, xlrd
+#       pandas, matplotlib, xlrd, numpy
 #
 
-import pandas as pd
-import numpy as np
-import re
-import matplotlib.pyplot as plt
+import pandas as pd              # for storing data
+import numpy as np               # for math
+import re                        # for regex
+import matplotlib.pyplot as plt  # for plotting
 
 df = pd.read_excel("MELASTA_Li-Polymer_modifiedNames.xlsx", skiprows=2, skip_footer=3)
 
 
 # convert string to number
 def num(s):
-    s = re.search('\d+(\.\d{1,2})?', str(s)).group(0)
+    s = re.search('\d+(\.\d{1,2})?', str(s)).group(0)  # use regex to find numeric value.
     try:
         return int(s)
     except ValueError:
@@ -58,8 +58,8 @@ df['Voltage'] = 3.7  # set the voltage for the batteries
 df['Specific Energy'] = df['Voltage'] * df['Capacity'] / df['Weight']  # Calculate specific energy.
 
 # # uncomment to remove a possible outlier
-# print(df[df['Specific Energy'] == numpy.min(df['Specific Energy'])])
-# df = df[df['Specific Energy'] != numpy.min(df['Specific Energy'])]
+print(df[df['Specific Energy'] == np.min(df['Specific Energy'])])
+# df = df[df['Specific Energy'] != np.min(df['Specific Energy'])]
 
 x = df['C']
 y = df['Specific Energy']
@@ -73,4 +73,3 @@ plt.savefig("C:/Users/drbum/git/rmuast_cnt/Lab_3/plotscript/plot.png")
 plt.show()
 
 print(np.corrcoef(df['C'], df['Specific Energy']))  # print correlation coefficients.
-
