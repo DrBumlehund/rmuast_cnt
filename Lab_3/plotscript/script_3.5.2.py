@@ -56,7 +56,8 @@ def map_range(numbers, lower=0, upper=100, flip=False):  # for mapping values be
     for i in range(0, (len(numbers))):
         num.append(((numbers[i] - np.min(numbers)) / (np.max(numbers) - np.min(numbers))) * upper + lower)
     if flip:
-        num.reverse()
+        for i in range(0,len(num)):
+            num[i] = upper - num[i]
     return num
 
 
