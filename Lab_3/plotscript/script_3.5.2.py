@@ -70,7 +70,7 @@ plt.ylabel('SoC')
 p = np.polyfit(x, y, 3)  # calculate third degree polynomial trend line
 f = np.poly1d(p)
 plt.plot(x, f(x), 'r--')
-plt.savefig('dischargePlot2.png')
+plt.savefig('SoCPlot.png')
 plt.show()
 
 print(f)
