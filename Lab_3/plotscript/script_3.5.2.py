@@ -48,7 +48,7 @@ plt.plot(x, y)
 plt.ylabel('Voltage')
 plt.xlabel('Time')
 plt.savefig('dischargePlot.png')
-plt.show()  # reset figure
+plt.show()
 
 
 def map_range(numbers, lower=0, upper=100, flip=False):  # for mapping values between two values, and flipping
