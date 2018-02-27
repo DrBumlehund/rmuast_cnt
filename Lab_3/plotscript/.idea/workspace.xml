@@ -30,8 +30,8 @@
       <file leaf-file-name="script_3.5.2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script_3.5.2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="75" column="0" lean-forward="true" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="63" column="31" lean-forward="true" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
               <folding>
                 <element signature="e#1209#1248#0" expanded="true" />
               </folding>
@@ -328,8 +328,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script_3.5.2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="75" column="0" lean-forward="true" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        <state relative-caret-position="187">
+          <caret line="63" column="31" lean-forward="true" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
           <folding>
             <element signature="e#1209#1248#0" expanded="true" />
           </folding>

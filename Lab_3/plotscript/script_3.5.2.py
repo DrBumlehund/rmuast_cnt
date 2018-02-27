@@ -51,7 +51,7 @@ plt.savefig('dischargePlot.png')
 plt.show()  # reset figure
 
 
-def map_reverse_order(numbers, lower=0, upper=100, flip=False):  # for mapping values between two values, and flipping
+def map_range(numbers, lower=0, upper=100, flip=False):  # for mapping values between two values, and flipping
     num = []
     for i in range(0, (len(numbers))):
         num.append(((numbers[i] - np.min(numbers)) / (np.max(numbers) - np.min(numbers))) * upper + lower)
@@ -61,7 +61,7 @@ def map_reverse_order(numbers, lower=0, upper=100, flip=False):  # for mapping v
 
 
 x = df[11]
-y = map_reverse_order(df[4], flip=True)
+y = map_range(df[4], flip=True)
 
 plt.plot(x, y)
 plt.xlabel('Voltage')
