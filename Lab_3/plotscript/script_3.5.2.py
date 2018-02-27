@@ -48,4 +48,28 @@ plt.plot(x, y)
 plt.ylabel('Voltage')
 plt.xlabel('Time')
 plt.savefig('dischargePlot.png')
+plt.show()  # reset figure
+
+
+def map_reverse_order(numbers, lower=0, upper=100, flip=False):  # for mapping values between two values, and flipping
+    num = []
+    for i in range(0, (len(numbers))):
+        num.append(((numbers[i] - np.min(numbers)) / (np.max(numbers) - np.min(numbers))) * upper + lower)
+    if flip:
+        num.reverse()
+    return num
+
+
+x = df[11]
+y = map_reverse_order(df[4], flip=True)
+
+plt.plot(x, y)
+plt.xlabel('Voltage')
+plt.ylabel('SoC')
+p = np.polyfit(x, y, 3)  # calculate third degree polynomial trend line
+f = np.poly1d(p)
+plt.plot(x, f(x), 'r--')
+plt.savefig('dischargePlot2.png')
 plt.show()
+
+print(f)
