@@ -46,14 +46,9 @@ plt.scatter(x, y8_1, color='grey')
 plt.scatter(x, y8_2, color='grey')
 plt.scatter(x, y8_3, color='grey')
 plt.scatter(x, y8_avg, color='teal')
-
-p_8 = np.poly1d(np.polyfit(x, y8_avg, 3))
-plt.plot(x, p_8(x), color='orange')
-print('8\"\n' + str(p_8))
 legend = [
     ln.Line2D([], [], color='grey', label='Observation', marker="o", linewidth=0),
     ln.Line2D([], [], color='teal', label='Average', marker="o", linewidth=0),
-    ln.Line2D([], [], color='orange', label='Trend')
 ]
 
 plt.legend(handles=legend)
@@ -65,22 +60,12 @@ plt.show()
 
 # plot for 10 inch propellers
 
-plt.plot(x, y10_cv, linestyle='dashed', label='average', color='teal')
-plt.plot(x, y10_ccv, linestyle='dashed', label='average', color='green')
-
-p_10_cv = np.poly1d(np.polyfit(x, y10_cv, 3))
-plt.plot(x, p_10_cv(x), color='orange')
-print('10\" cw\n' + str(p_10_cv))
-
-p_10_ccv = np.poly1d(np.polyfit(x, y10_ccv, 3))
-plt.plot(x, p_10_ccv(x), color='red')
-print('10\" ccw\n' + str(p_10_ccv))
+plt.scatter(x, y10_cv, color='teal')
+plt.scatter(x, y10_ccv, color='green')
 
 plt.legend(handles=[
-    ln.Line2D([], [], color='teal', label='Average cw', linestyle='dashed'),
-    ln.Line2D([], [], color='green', label='Average ccw', linestyle='dashed'),
-    ln.Line2D([], [], color='orange', label='Trend cw'),
-    ln.Line2D([], [], color='red', label='Trend ccw')
+    ln.Line2D([], [], color='teal', label='cw', marker="o", linewidth=0),
+    ln.Line2D([], [], color='green', label='ccw', marker="o", linewidth=0),
 ])
 plt.xlabel('Power [% duty cycle]')
 plt.ylabel('Thrust [g]')
@@ -89,6 +74,18 @@ plt.savefig('10 inch test.png')
 plt.show()
 
 # trend line comparison
+
+
+p_8 = np.poly1d(np.polyfit(x, y8_avg, 3))
+print('8\"\n' + str(p_8))
+
+p_10_cv = np.poly1d(np.polyfit(x, y10_cv, 3))
+print('10\" cw\n' + str(p_10_cv))
+
+p_10_ccv = np.poly1d(np.polyfit(x, y10_ccv, 3))
+print('10\" ccw\n' + str(p_10_ccv))
+
+
 plt.plot(x, p_8(x), color='teal')
 plt.plot(x, p_10_cv(x), color='orange')
 plt.plot(x, p_10_ccv(x), color='green')
@@ -115,7 +112,10 @@ y_volts = [
     np.max(df['8 Thrust CW 3'])
 ]
 
-plt.plot(x_volts, y_volts)
+plt.scatter(x_volts, y_volts, color='teal')
+plt.legend(handles=[
+    ln.Line2D([], [], color='teal', label='max thrust for 8\" measurements', marker="o", linewidth=0)
+])
 plt.xlabel('Battery voltage [V]')
 plt.ylabel('Thrust [g]')
 plt.title('Max thrust vs. Battery Voltage')
