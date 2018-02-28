@@ -67,16 +67,22 @@ void setPW(int _throttle) // Get a throttle percentage and set pulsewidth accord
     Serial.println("Not armed");
     return;
   }
-
-  int throttle = constrain(map(_throttle, 0, 100, lower, upper), lover, upper);
-  currentPW = throttle;
-  Serial.println(throttle);
+  _throttle = constrain(_throttle, 0, 100);
+  int throttle = map(_throttle, 0, 100, lower, upper);
+  currentPW = _throttle;
+  Serial.println(_throttle);
   Timer1.pwm(rcPin, throttle);
 }
 
 void setBounds (float _lower, float _upper) { // Input: pulsewidth ranges in ms
   lower = (int)((float)_lower / 20 * 1023);
   upper = (int)((float)_upper / 20 * 1023);
+
+  Serial.print("Lower bound: ");
+  Serial.println(lower);
+  Serial.print("Upper bound: ");
+  Serial.println(upper);
+  
 }
 
 void loop(void)
