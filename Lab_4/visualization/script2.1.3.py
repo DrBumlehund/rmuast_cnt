@@ -25,82 +25,99 @@
 import pandas as pd  # for storing data
 import numpy as np  # for math
 import matplotlib.pyplot as plt  # for plotting
-import matplotlib.patches as pch  # for legends on the plots
+import matplotlib.lines as ln  # for legends on the plots
 
-trends = dict()
-x = []
+df = pd.read_csv("Thrust curve - all.csv")
+df_volt = pd.read_csv("Thrust curve - voltage.csv")
 
+# Set x and y values
+x = df['Power']
+y8_1 = df['8 Thrust CW 1']
+y8_2 = df['8 Thrust CW 2']
+y8_3 = df['8 Thrust CW 3']
 
-def plot(path, inches):
-    global trends, x
-    df = pd.read_csv(path)
+y8_avg = df['8 Thrust CW']
 
-    # Set x and y values
-    x = df['Power']
-    y1 = df['Thrust CW']
-    y2 = 0
-    if inches is not 8:
-        y2 = df['Thrust CCW']
+y10_cv = df['10 Thrust CW']
+y10_ccv = df['10 Thrust CCW']
 
-    # define labels for the legend
-    legends = [pch.Patch(color='orange', label=str(inches) + '\" CW'),
-               pch.Patch(color='red', label=str(inches) + '\" CW trend')]
-    if inches is not 8:
-        legends.append(pch.Patch(color='teal', label=str(inches) + '\" CCW'))
-        legends.append(pch.Patch(color='blue', label=str(inches) + '\" CCW trend'))
-    plt.legend(handles=legends)
+# plot dots for all tests on 8 inch propeller
+plt.scatter(x, y8_1, color='grey')
+plt.scatter(x, y8_2, color='grey')
+plt.scatter(x, y8_3, color='grey')
+plt.scatter(x, y8_avg, color='teal')
 
-    # add lines to the plot
-    plt.scatter(x, y1, color='orange')
-    if inches is not 8:
-        plt.scatter(x, y2, color='teal')
+p_8 = np.poly1d(np.polyfit(x, y8_avg, 3))
+plt.plot(x, p_8(x), color='orange')
+print('8\"\n' + str(p_8))
+legend = [
+    ln.Line2D([], [], color='grey', label='Observation', marker="o", linewidth=0),
+    ln.Line2D([], [], color='teal', label='Average', marker="o", linewidth=0),
+    ln.Line2D([], [], color='orange', label='Trend')
+]
 
-    # regression for CW
-    p = np.polyfit(x, y1, 3)
-    f_cw = np.poly1d(p)
-    plt.plot(x, f_cw(x), color='red')
-
-    trends[str(inches) + '\" CW'] = f_cw
-
-    # regression for CCW
-    if inches is not 8:
-        p = np.polyfit(x, y2, 3)  # calculate third degree polynomial trend line
-        f_ccw = np.poly1d(p)
-        plt.plot(x, f_ccw(x), color='blue')
-
-        trends[str(inches) + '\" CCW'] = f_ccw
-
-    # set plot axis labels
-    plt.xlabel('Power')
-    plt.ylabel('Thrust')
-
-    # save plot
-    plt.savefig(str(inches) + '.png')
-    # show plot
-    plt.show()
-
-
-plot('Thrust curve - 8 inch.csv', 8)
-plot('Thrust curve - 10 inch.csv', 10)
-
-# define possible colors for trend plot
-colors = ['red', 'blue', 'green', 'yellow']
-# create list for legend
-legend = []
-# loop through the trends
-for name, f in trends.items():
-    print('name=' + str(name))
-    print('f=' + str(f))
-    col = colors.pop()  # get color
-    legend.append(pch.Patch(color=col, label=name))  # create legend entry
-    plt.plot(x, f(x), color=col)  # add line to plot
-
-# add legend and axis labels to plot
 plt.legend(handles=legend)
-plt.xlabel('Power')
-plt.ylabel('thrust')
+plt.xlabel('Power [% duty cycle]')
+plt.ylabel('Thrust [g]')
+plt.title('8 inch propeller thrust curve Test')
+plt.savefig('8 inch test.png')
+plt.show()
 
-# save plot
-plt.savefig('trends.png')
-# show the plot
+# plot for 10 inch propellers
+
+plt.plot(x, y10_cv, linestyle='dashed', label='average', color='teal')
+plt.plot(x, y10_ccv, linestyle='dashed', label='average', color='green')
+
+p_10_cv = np.poly1d(np.polyfit(x, y10_cv, 3))
+plt.plot(x, p_10_cv(x), color='orange')
+print('10\" cw\n' + str(p_10_cv))
+
+p_10_ccv = np.poly1d(np.polyfit(x, y10_ccv, 3))
+plt.plot(x, p_10_ccv(x), color='red')
+print('10\" ccw\n' + str(p_10_ccv))
+
+plt.legend(handles=[
+    ln.Line2D([], [], color='teal', label='Average cw', linestyle='dashed'),
+    ln.Line2D([], [], color='green', label='Average ccw', linestyle='dashed'),
+    ln.Line2D([], [], color='orange', label='Trend cw'),
+    ln.Line2D([], [], color='red', label='Trend ccw')
+])
+plt.xlabel('Power [% duty cycle]')
+plt.ylabel('Thrust [g]')
+plt.title('10 inch propeller thrust curve Test')
+plt.savefig('10 inch test.png')
+plt.show()
+
+# trend line comparison
+plt.plot(x, p_8(x), color='teal')
+plt.plot(x, p_10_cv(x), color='orange')
+plt.plot(x, p_10_ccv(x), color='green')
+plt.legend(handles=[
+    ln.Line2D([], [], color='teal', label='Trend 8\" cw'),
+    ln.Line2D([], [], color='orange', label='Trend 10\" cw'),
+    ln.Line2D([], [], color='green', label='Trend 10\" ccw'),
+])
+plt.xlabel('Power [% duty cycle]')
+plt.ylabel('Thrust [g]')
+plt.title('Thrust curve trend comparison')
+plt.savefig('trend comparison.png')
+plt.show()
+
+# max over voltage plot
+x_volts = [
+    np.max(df_volt['8 Thrust CW 1']),
+    np.max(df_volt['8 Thrust CW 2']),
+    np.max(df_volt['8 Thrust CW 3'])
+]
+y_volts = [
+    np.max(df['8 Thrust CW 1']),
+    np.max(df['8 Thrust CW 2']),
+    np.max(df['8 Thrust CW 3'])
+]
+
+plt.plot(x_volts, y_volts)
+plt.xlabel('Battery voltage [V]')
+plt.ylabel('Thrust [g]')
+plt.title('Max thrust vs. Battery Voltage')
+plt.savefig('voltage plot.png')
 plt.show()
