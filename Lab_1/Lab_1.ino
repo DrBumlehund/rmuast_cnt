@@ -17,7 +17,6 @@
     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
     OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 */
 
 #include <TimerOne.h>
@@ -25,6 +24,8 @@
 const int rcPin = 9;
 String input;
 boolean armed = false;
+
+int currentPW = 0;
 
 int lower;
 int upper;
@@ -38,7 +39,7 @@ void setup(void)
   // setBounds(1, 2);       // for motor.
   // setBounds(0.75, 2.25); // for servo
   setBounds(0.4, 2.32); // min-max positions for servo :)
-  
+
   Serial.setTimeout(30);
 
   pinMode(rcPin, OUTPUT);
@@ -52,6 +53,7 @@ void setPW(int _throttle) // Get a throttle percentage and set pulsewidth accord
   }
 
   int throttle = map(_throttle, 0, 100, lower, upper);
+  currentPW = throttle;
   Serial.println(throttle);
   Timer1.pwm(rcPin, throttle);
 }
@@ -120,8 +122,13 @@ void loop(void)
     delay(3000);
     Timer1.pwm(rcPin, 19);
     delay(1000);
+  } else if (input == "+") {
+    setPW(currentPW + 5);
+  } else if (input == "-") {
+    setPW(currentPW - 5);
+  } 
 
-  }
+  
   input = " ";
 
 }
