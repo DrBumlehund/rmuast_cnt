@@ -18,32 +18,66 @@
 #  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 #  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+# Packages to install: (pip install)
+#       pandas, numpy, Bokeh
+#
+
 import pandas as pd  # for storing data
 import numpy as np  # for math
-from bokeh.plotting import figure, show, output_file
+from bokeh.plotting import figure, output_file, show  # for plotting data
 
 df = pd.read_csv('Thrust curve - all.csv')
-
-output_file('thrust_curve.html')
-p = figure(title='Thrust Curve', x_axis_label='Power [% duty cycle]', y_axis_label='Thrust [G]', x_range=[0, 100],
-           y_range=(0, 850))
-
+df_volt = pd.read_csv("Thrust curve - voltage.csv")
 x = df['Power']
 
-p.scatter(x, df['8 Thrust CW 1'], legend='8\" run 1', size=3, color='teal')
-p.scatter(x, df['8 Thrust CW 2'], legend='8\" run 2', size=3, color='orange')
-p.scatter(x, df['8 Thrust CW 3'], legend='8\" run 3', size=3, color='green')
-p.scatter(x, df['8 Thrust CW'], legend='8\" avg', size=5, color='red')
+# thrust curve 8 inch
+p = figure(title='Thrust Curve', x_axis_label='Power [% duty cycle]', y_axis_label='Thrust [G]')
 
-p.scatter(x, df['10 Thrust CW'], legend='10\" cw', size=5, color='blue')
-p.scatter(x, df['10 Thrust CCW'], legend='10\" ccw', size=5, color='brown')
+p.scatter(x, df['8 Thrust CW 1'], legend='8\" run 1', size=3, color='grey')
+p.scatter(x, df['8 Thrust CW 2'], legend='8\" run 2', size=3, color='lightgrey')
+p.scatter(x, df['8 Thrust CW 3'], legend='8\" run 3', size=3, color='darkgrey')
+p.scatter(x, df['8 Thrust CW'], legend='8\" avg', size=5, color='orange')
+p.legend.location = 'top_left'
+
+# thrust curve 10 inch
+q = figure(title='Thrust Curve', x_axis_label='Power [% duty cycle]', y_axis_label='Thrust [G]')
+
+q.scatter(x, df['10 Thrust CW'], legend='10\" cw', size=5, color='orange')
+q.scatter(x, df['10 Thrust CCW'], legend='10\" ccw', size=5, color='teal')
+q.legend.location = 'top_left'
+
+# trend comparison
+b = figure(title='Thrust Curve', x_axis_label='Power [% duty cycle]', y_axis_label='Thrust [G]')
 
 f = np.poly1d(np.polyfit(x, df['8 Thrust CW'], 3))
-p.line(x, f(x), legend="8\" trend", color='pink', line_dash='4 4')
+b.line(x, f(x), legend="8\" trend", color='orange')
 
 f = np.poly1d(np.polyfit(x, df['10 Thrust CW'], 3))
-p.line(x, f(x), legend="10\" cw trend", color='cyan', line_dash='4 4')
+b.line(x, f(x), legend="10\" cw trend", color='teal')
 
 f = np.poly1d(np.polyfit(x, df['10 Thrust CCW'], 3))
-p.line(x, f(x), legend="10\" ccw trend", color='purple', line_dash='4 4')
+b.line(x, f(x), legend="10\" ccw trend", color='green')
+
+b.legend.location = 'top_left'
+
+# volt vs max thrust
+d = figure(title='Thrust Curve', x_axis_label='Voltage [V]', y_axis_label='Thrust [G]')
+
+x_volts = [
+    np.max(df_volt['8 Thrust CW 1']),
+    np.max(df_volt['8 Thrust CW 2']),
+    np.max(df_volt['8 Thrust CW 3'])
+]
+y_volts = [
+    np.max(df['8 Thrust CW 1']),
+    np.max(df['8 Thrust CW 2']),
+    np.max(df['8 Thrust CW 3'])
+]
+
+d.scatter(x_volts, y_volts, size=5, color='orange', legend='max thrust')
+d.legend.location = 'top_left'
+
 show(p)
+show(q)
+show(b)
+show(d)

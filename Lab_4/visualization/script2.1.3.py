@@ -19,7 +19,7 @@
 #  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 # Packages to install: (pip install)
-#       pandas, matplotlib, xlrd, numpy
+#       pandas, matplotlib, numpy
 #
 
 import pandas as pd  # for storing data
