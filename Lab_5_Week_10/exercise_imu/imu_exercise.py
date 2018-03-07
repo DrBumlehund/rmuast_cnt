@@ -4,6 +4,11 @@
 # IMU exercise
 # Copyright (c) 2015-2018 Kjeld Jensen kjen@mmmi.sdu.dk kj@kjen.dk
 
+
+# import libraries
+from math import pi, sqrt, atan2
+import matplotlib.pyplot as plt
+
 ##### Insert initialize code below ###################
 
 ## Uncomment the file to read ##
@@ -30,10 +35,6 @@ myValue = 0.0
 
 ######################################################
 
-# import libraries
-from math import pi, sqrt, atan2
-import matplotlib.pyplot as plt
-
 # open the imu data file
 f = open (fileName, "r")
 
@@ -53,17 +54,17 @@ for line in f:
 	ts_recv = float(csv[0])
 	if count == 1: 
 		ts_now = ts_recv # only the first time
- 	ts_prev = ts_now
+	ts_prev = ts_now
 	ts_now = ts_recv
 
 	if imuType == 'sparkfun_razor':
 		# import data from a SparkFun Razor IMU (SDU firmware)
-		acc_x = int(csv[2]) / 1000.0 * 4 * 9.82;
-		acc_y = int(csv[3]) / 1000.0 * 4 * 9.82;
-		acc_z = int(csv[4]) / 1000.0 * 4 * 9.82;
-		gyro_x = int(csv[5]) * 1/14.375 * pi/180.0;
-		gyro_y = int(csv[6]) * 1/14.375 * pi/180.0;
-		gyro_z = int(csv[7]) * 1/14.375 * pi/180.0;
+		acc_x = int(csv[2]) / 1000.0 * 4 * 9.82
+		acc_y = int(csv[3]) / 1000.0 * 4 * 9.82
+		acc_z = int(csv[4]) / 1000.0 * 4 * 9.82
+		gyro_x = int(csv[5]) * 1/14.375 * pi/180.0
+		gyro_y = int(csv[6]) * 1/14.375 * pi/180.0
+		gyro_z = int(csv[7]) * 1/14.375 * pi/180.0
 
 	elif imuType == 'vectornav_vn100':
 		# import data from a VectorNav VN-100 configured to output $VNQMR
@@ -92,7 +93,7 @@ for line in f:
 	
 	
 	
-	
+	pitch = atan2(acc_y, sqrt(pow(acc_x,2)+pow(acc_z,2)))
 	
 	
 	
