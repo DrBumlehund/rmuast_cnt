@@ -8,13 +8,17 @@
 # import libraries
 from math import pi, sqrt, atan2
 import matplotlib.pyplot as plt
+import matplotlib.lines as ln
+import numpy as np
+from scipy.signal import lfilter
+import scipy.integrate as integrate
 
 ##### Insert initialize code below ###################
 
 ## Uncomment the file to read ##
-# fileName = 'imu_razor_data_static.txt'
+fileName = 'imu_razor_data_static.txt'
 # fileName = 'imu_razor_data_pitch_55deg.txt'
-fileName = 'imu_razor_data_roll_65deg.txt'
+# fileName = 'imu_razor_data_roll_65deg.txt'
 # fileName = 'imu_razor_data_yaw_90deg.txt'
 
 ## IMU type
@@ -23,10 +27,14 @@ imuType = 'sparkfun_razor'
 
 ## Variables for plotting ##
 showPlot = True
-plotData = []
+plotData_pitch = []
+plotData_roll = []
+plotData_angle = []
+plotData_angle_biased = []
+timeData = []
 
 ## Initialize your variables here ##
-myValue = 0.0
+myValue_pitch = 0.0
 
 ######################################################
 
@@ -36,8 +44,13 @@ f = open(fileName, "r")
 # initialize variables
 count = 0
 
-# looping through file
 
+# a bias of 0.04660033317566759 was introduced in 58.36031794548035 time units
+def bias(x):
+    return 0.04660033317566759 / 58.36031794548035 * x
+
+
+# looping through file
 for line in f:
     count += 1
 
@@ -86,24 +99,63 @@ for line in f:
 
     ## Insert your code here ##
 
-    # pitch = atan2(acc_y, sqrt(pow(acc_x, 2) + pow(acc_z, 2)))
+    pitch = atan2(acc_y, sqrt(pow(acc_x, 2) + pow(acc_z, 2)))
 
     roll = atan2(-acc_x, acc_z)
 
-    myValue = roll  # relevant for the first exercise, then change this.
+    unbiased_angle = gyro_z * (ts_now - ts_prev) - bias((ts_now - ts_prev))
+    angle = gyro_z * (ts_now - ts_prev)
+
+    if len(plotData_angle) > 0:
+        angle += plotData_angle_biased[-1]
+        unbiased_angle += plotData_angle[-1]
 
     # in order to show a plot use this function to append your value to a list:
-    plotData.append(myValue * 180.0 / pi)
+    plotData_pitch.append(pitch * 180.0 / pi)
+    plotData_roll.append(roll * 180.0 / pi)
+    plotData_angle.append(unbiased_angle)
+    plotData_angle_biased.append(angle)
+    timeData.append(ts_now)
 
 ######################################################
 
 # closing the file	
 f.close()
 
+print('a bias of ' + str(np.max(plotData_angle_biased)) + ' was introduced in ' + str(
+    np.max(timeData) - np.min(timeData)) + ' time units')
+
+n = 200  # the larger n is, the smoother curve will be
+b = [1.0 / n] * n
+a = 1
+
 # show the plot
-if showPlot == True:
-    plt.plot(plotData)
+# if showPlot:
+#     plt.plot(plotData_pitch)
+#     yy_pitch = lfilter(b, a, plotData_pitch)
+#     plt.plot(yy_pitch, linewidth=1, linestyle="-", c="r")  # smooth by filter
+#     plt.xlabel('Time')
+#     plt.ylabel('Pitch [deg]')
+#     plt.savefig('imu_exercise_plot_static_pitch_filtered.png')
+#     plt.show()
+#
+# if showPlot:
+#     plt.plot(plotData_roll)
+#     yy_roll = lfilter(b, a, plotData_roll)
+#     plt.plot(yy_roll, linewidth=1, linestyle="-", c="r")  # smooth by filter
+#     plt.xlabel('Time')
+#     plt.ylabel('Roll [deg]')
+#     plt.savefig('imu_exercise_plot_static_roll_filtered.png')
+#     plt.show()
+
+if showPlot:
+    plt.plot(plotData_angle_biased, c='b')
+    plt.plot(plotData_angle, c='r')
+    plt.legend(handles=[
+        ln.Line2D([], [], color='blue', label='static data'),
+        ln.Line2D([], [], color='red', label='unbiased data')
+    ])
     plt.xlabel('Time')
-    plt.ylabel('Roll [deg]')
-    plt.savefig('imu_exercise_plot.png')
+    plt.ylabel('Relative Angular Distance')
+    plt.savefig('gyro_z_static_bias.png')
     plt.show()
