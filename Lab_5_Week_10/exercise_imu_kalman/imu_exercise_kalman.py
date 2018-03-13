@@ -25,20 +25,20 @@ show3DLiveViewInterval = 3
 ##### Insert initialize code below ###################
 
 # approx. bias values determined by averaging over static measurements
-bias_gyro_x = 4.3939754587634265 / 6000  # [rad/measurement]
-bias_gyro_y = 2.4344349177255036 / 6000  # [rad/measurement]
-bias_gyro_z = 0.0466003331756676 / 6000  # [rad/measurement]
+bias_gyro_x = 4  # [rad/measurement]
+bias_gyro_y = 2  # [rad/measurement]
+bias_gyro_z = 0  # [rad/measurement]
 
 # variances
-gyroVar = 5
-pitchVar = 5
+gyroVar = 0.05
+pitchVar = 0.01
 
 # Kalman filter start guess
 estAngle = -pi / 4.0
-estVar = 5
+estVar = 0
 
 # Kalman filter housekeeping variables
-gyroVarAcc = 5
+gyroVarAcc = 0
 
 ######################################################
 
@@ -130,11 +130,22 @@ for line in f:
     gyro_z_rel += gyro_z * (ts_now - ts_prev)
 
     # Kalman prediction step (we have new data in each iteration)
+    predAngle = estAngle + gyro_x * (ts_now - ts_prev)
+    gyroVarAcc += gyroVar
+    predVar = estVar + gyroVarAcc * (ts_now - ts_prev)
+    estAngle = predAngle
+    estVar = predVar
 
     # Kalman correction step (we have new data in each iteration)
+    k = predVar / (predVar + pitchVar)
+    corrAngle = predAngle + k * (pitch - predAngle)
+    corrVar = predVar * (1 - k)
+    estAngle = corrAngle
+    estVar = corrVar
+    gyroVarAcc = 0
 
     # define which value to plot as the Kalman filter estimate
-    kalman_estimate = pitch
+    kalman_estimate = predAngle
 
     # define which value to plot as the absolute value (pitch/roll)
     pitch_roll_plot = pitch
@@ -163,6 +174,11 @@ for line in f:
 # closing the file	
 f.close()
 
+
+def raw_input():
+    return
+
+
 # show the plot
 if showPlot is True:
     ion()
@@ -178,4 +194,4 @@ if showPlot is True:
     plt.savefig('imu_exercise_acc_kalman.png')
     plt.draw()
     print('Press enter to quit')
-    #raw_input()
+    raw_input()
