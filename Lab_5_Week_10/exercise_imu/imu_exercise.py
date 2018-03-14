@@ -29,9 +29,11 @@ imuType = 'sparkfun_razor'
 showPlot = True
 plotData_pitch = []
 plotData_roll = []
+plotData_angle_unbiased = []
 plotData_angle = []
-plotData_angle_biased = []
 timeData = []
+angle_sum = 0
+unbiased_angle_sum = 0
 
 ## Initialize your variables here ##
 myValue_pitch = 0.0
@@ -106,15 +108,18 @@ for line in f:
     unbiased_angle = gyro_z * (ts_now - ts_prev) - bias((ts_now - ts_prev))
     angle = gyro_z * (ts_now - ts_prev)
 
-    if len(plotData_angle) > 0:
-        angle += plotData_angle_biased[-1]
-        unbiased_angle += plotData_angle[-1]
+    angle += angle_sum
+    angle_sum = angle
+
+    unbiased_angle += unbiased_angle_sum
+    unbiased_angle_sum = unbiased_angle
 
     # in order to show a plot use this function to append your value to a list:
     plotData_pitch.append(pitch * 180.0 / pi)
     plotData_roll.append(roll * 180.0 / pi)
-    plotData_angle.append(unbiased_angle)
-    plotData_angle_biased.append(angle)
+    plotData_angle_unbiased.append(float(unbiased_angle * 180.0 / pi))
+    # angle_deg = float(angle * 180.0 / pi)
+    plotData_angle.append(angle * 180 / pi)
     timeData.append(ts_now)
 
 ######################################################
@@ -122,7 +127,7 @@ for line in f:
 # closing the file	
 f.close()
 
-print('a bias of ' + str(np.max(plotData_angle_biased)) + ' was introduced in ' + str(
+print('a bias of ' + str(np.max(plotData_angle)) + ' was introduced in ' + str(
     np.max(timeData) - np.min(timeData)) + ' time units')
 
 n = 200  # the larger n is, the smoother curve will be
@@ -131,31 +136,39 @@ a = 1
 
 # show the plot
 # if showPlot:
-#     plt.plot(plotData_pitch)
+#     plt.plot(plotData_pitch, c='b')
 #     yy_pitch = lfilter(b, a, plotData_pitch)
-#     plt.plot(yy_pitch, linewidth=1, linestyle="-", c="r")  # smooth by filter
-#     plt.xlabel('Time')
+#     # plt.plot(yy_pitch, linewidth=1, linestyle="-", c="r")  # smooth by filter
+#     # plt.legend(handles=[
+#     #     ln.Line2D([], [], color='blue', label='data'),
+#     #     ln.Line2D([], [], color='red', label='Filtered data')
+#     # ])
+#     plt.xlabel('Observations')
 #     plt.ylabel('Pitch [deg]')
-#     plt.savefig('imu_exercise_plot_static_pitch_filtered.png')
-#     plt.show()
-#
-# if showPlot:
-#     plt.plot(plotData_roll)
-#     yy_roll = lfilter(b, a, plotData_roll)
-#     plt.plot(yy_roll, linewidth=1, linestyle="-", c="r")  # smooth by filter
-#     plt.xlabel('Time')
-#     plt.ylabel('Roll [deg]')
-#     plt.savefig('imu_exercise_plot_static_roll_filtered.png')
-#     plt.show()
+#     plt.savefig('pitch.png')
+#     plt.draw()
 
 if showPlot:
-    plt.plot(plotData_angle_biased, c='b')
-    plt.plot(plotData_angle, c='r')
+    plt.plot(plotData_roll, c='b')
+    yy_roll = lfilter(b, a, plotData_roll)
+    plt.plot(yy_roll, linewidth=1, linestyle="-", c="r")  # smooth by filter
     plt.legend(handles=[
-        ln.Line2D([], [], color='blue', label='static data'),
-        ln.Line2D([], [], color='red', label='unbiased data')
+        ln.Line2D([], [], color='blue', label='data'),
+        ln.Line2D([], [], color='red', label='Filtered data')
     ])
-    plt.xlabel('Time')
-    plt.ylabel('Relative Angular Distance')
-    plt.savefig('gyro_z_static_bias.png')
-    plt.show()
+    plt.xlabel('Observations')
+    plt.ylabel('Roll [deg]')
+    plt.savefig('roll_static_filtered.png')
+    plt.draw()
+
+# if showPlot:
+#     plt.plot(plotData_angle, c='b')
+#     plt.plot(plotData_angle_unbiased, c='r')
+#     plt.legend(handles=[
+#         ln.Line2D([], [], color='blue', label='static data'),
+#         ln.Line2D([], [], color='red', label='unbiased data')
+#     ])
+#     plt.xlabel('Observations')
+#     plt.ylabel('Relative Angle [deg]')
+#     plt.savefig('gyro_z_static_bias.png')
+#     plt.draw()

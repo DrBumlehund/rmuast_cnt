@@ -14,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="imu_exercise_kalman.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="imu_exercise_kalman.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_kalman.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="136" column="20" lean-forward="true" selection-start-line="136" selection-start-column="20" selection-end-line="136" selection-end-column="20" />
+            <state relative-caret-position="3179">
+              <caret line="191" column="5" lean-forward="false" selection-start-line="191" selection-start-column="5" selection-end-line="191" selection-end-column="5" />
               <folding>
                 <element signature="e#145#177#0" expanded="true" />
               </folding>
@@ -33,22 +33,50 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="imu_exercise_gyro.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_gyro.png">
+      <file leaf-file-name="imu_exercise.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exercise_imu/imu_exercise.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2720">
+              <caret line="160" column="43" lean-forward="false" selection-start-line="160" selection-start-column="43" selection-end-line="160" selection-end-column="43" />
+              <folding>
+                <element signature="e#146#178#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="roll_static_filtered.png" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/exercise_imu/roll_static_filtered.png">
           <provider selected="true" editor-type-id="images">
             <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="imu_box3d.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_box3d.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding>
-                <element signature="e#19#42#0" expanded="true" />
-              </folding>
-            </state>
+      <file leaf-file-name="roll_static.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exercise_imu/roll_static.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gyro_z_static_bias.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z_static_bias.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gyro_z_static.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z_static.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gyro_z.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
@@ -58,8 +86,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/exercise_imu_kalman/imu_box3d.py" />
-        <option value="$PROJECT_DIR$/exercise_imu/imu_exercise.py" />
         <option value="$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_kalman.py" />
+        <option value="$PROJECT_DIR$/exercise_imu/imu_exercise.py" />
       </list>
     </option>
   </component>
@@ -69,7 +97,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-7" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
@@ -89,7 +117,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -116,7 +144,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -179,16 +207,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="974" height="1047" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12184413" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38402626" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19349681" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -198,6 +225,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="434" height="856" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -236,15 +264,98 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/exercise_imu_kalman/imu_box3d.py</url>
-          <line>2</line>
+          <url>file://$PROJECT_DIR$/exercise_imu/imu_exercise.py</url>
+          <line>121</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/exercise_imu/imu_exercise.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_kalman.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3179">
+          <caret line="191" column="5" lean-forward="false" selection-start-line="191" selection-start-column="5" selection-end-line="191" selection-end-column="5" />
+          <folding>
+            <element signature="e#145#177#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_acc_kalman.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/imu_exercise.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2720">
+          <caret line="160" column="43" lean-forward="true" selection-start-line="160" selection-start-column="43" selection-end-line="160" selection-end-column="43" />
+          <folding>
+            <element signature="e#146#178#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/roll_static.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z_static_bias.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z_static.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/roll_static_filtered.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_kalman.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#145#177#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_gyro.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_acc_kalman.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_box3d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_kalman.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -259,9 +370,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="e#19#42#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -272,10 +380,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/exercise_imu/imu_exercise.py">
+    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_razor_data_pitch_55deg.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="50" column="0" lean-forward="true" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        <state relative-caret-position="-21631">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -283,17 +391,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
           <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="e#19#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_razor_data_pitch_55deg.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-21631">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -302,19 +399,54 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_acc_kalman.png">
+    <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z_static.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/gyro_z_static_bias.png">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_kalman.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="136" column="20" lean-forward="true" selection-start-line="136" selection-start-column="20" selection-end-line="136" selection-end-column="20" />
+        <state relative-caret-position="3179">
+          <caret line="191" column="5" lean-forward="false" selection-start-line="191" selection-start-column="5" selection-end-line="191" selection-end-column="5" />
           <folding>
             <element signature="e#145#177#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu_kalman/imu_exercise_acc_kalman.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/roll_static.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/imu_exercise.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2720">
+          <caret line="160" column="43" lean-forward="false" selection-start-line="160" selection-start-column="43" selection-end-line="160" selection-end-column="43" />
+          <folding>
+            <element signature="e#146#178#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exercise_imu/roll_static_filtered.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
   </component>

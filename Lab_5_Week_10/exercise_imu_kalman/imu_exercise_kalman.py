@@ -7,6 +7,7 @@
 # import libraries
 from math import pi, sqrt, atan2
 import matplotlib.pyplot as plt
+import matplotlib.lines as ln
 from pylab import ion
 from imu_box3d import imu_visualize
 
@@ -25,8 +26,8 @@ show3DLiveViewInterval = 3
 ##### Insert initialize code below ###################
 
 # approx. bias values determined by averaging over static measurements
-bias_gyro_x = 4  # [rad/measurement]
-bias_gyro_y = 2  # [rad/measurement]
+bias_gyro_x = 0  # [rad/measurement]
+bias_gyro_y = 0  # [rad/measurement]
 bias_gyro_z = 0  # [rad/measurement]
 
 # variances
@@ -145,7 +146,7 @@ for line in f:
     gyroVarAcc = 0
 
     # define which value to plot as the Kalman filter estimate
-    kalman_estimate = predAngle
+    kalman_estimate = corrAngle
 
     # define which value to plot as the absolute value (pitch/roll)
     pitch_roll_plot = pitch
@@ -188,9 +189,15 @@ if showPlot is True:
     plt.savefig('imu_exercise_gyro.png')
 
     plt.figure(2)
-    plt.title('Accelerometer (blue) & Kalman estimation (red) angles')
+    #plt.title('Accelerometer (blue) & Kalman estimation (red) angles')
     plt.plot(plotDataAcc, 'blue')
     plt.plot(plotDataKalman, 'red')
+    plt.legend(handles=[
+        ln.Line2D([], [], color='blue', label='Accelerometer'),
+        ln.Line2D([], [], color='red', label='Kalman estimation')
+    ])
+    plt.ylabel("Pitch angle [deg]")
+    plt.xlabel("Observations")
     plt.savefig('imu_exercise_acc_kalman.png')
     plt.draw()
     print('Press enter to quit')
