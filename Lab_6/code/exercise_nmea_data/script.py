@@ -35,17 +35,19 @@ import matplotlib.dates as dt
 # http://www.trimble.com/oem_receiverhelp/v4.44/en/nmea-0183messages_gga.html
 # http://www.gpsinformation.org/dale/nmea.htm#GGA
 class NMEA:
+
     def __init__(self):
         self.df = {}
 
     def import_file(self, file_name):
         self.df = pd.read_csv(file_name, header=None, skipfooter=1, engine='python', dtype={4: str, 2: str})
-        self.df[1] = self.df[1].apply(lambda x: self.clean_dates(x))
+        self.df[1] = self.df[1].apply(lambda x: self.convert_dates(x))
         self.df[2] = self.df[2].apply(lambda x: self.convert_degrees(2, x))
         self.df[4] = self.df[4].apply(lambda x: self.convert_degrees(3, x))
+        self.df[6] = self.df[6].apply(lambda x: self.convert_quality(x))
 
     @staticmethod
-    def clean_dates(value):
+    def convert_dates(value):
         t = datetime.strptime(str(value), '%H%M%S.%f')
         return t
 
@@ -55,37 +57,55 @@ class NMEA:
         minutes = float(value[deg_length:])
         return float(deg + minutes / 60)
 
+    @staticmethod
+    def convert_quality(value):
+        quality = {0: 'invalid', 1: 'GPS fix (SPS)', 2: 'DGPS fix', 3: 'PPS fix', 4: 'RTK', 5: 'RTK float',
+                   6: 'estimated', 7: 'Manual input', 8: 'Simulation Mode'}
+        val = quality[value]
+        return val
+
     def print_data(self):
         print(self.df)
 
     def plot_height_over_time(self):
+        fig, ax = plt.subplots()
         dates = dt.date2num(self.df[1])
         plt.plot(dates, self.df[9])
         plt.xlabel('Time [utc]')
-        plt.ylabel('Height over MSL [m]')
+        plt.ylabel('Height [m]')
+        ax.xaxis.set_major_formatter(dt.DateFormatter('%H:%M:%S'))
+        plt.gcf().autofmt_xdate()
         plt.savefig('height_time_plot.png')
         plt.show()
 
     def plot_number_of_satellites_over_time(self):
+        fig, ax = plt.subplots()
         dates = dt.date2num(self.df[1])
         plt.plot(dates, self.df[7])
         plt.xlabel('Time [utc]')
-        plt.ylabel('Satellites')
+        plt.ylabel('Satellites [#]')
+        ax.xaxis.set_major_formatter(dt.DateFormatter('%H:%M:%S'))
+        plt.gcf().autofmt_xdate()
         plt.savefig('number_of_satellites_plot.png')
         plt.show()
 
     def plot_quality_of_signal_over_time(self):
+        fig, ax = plt.subplots()
         dates = dt.date2num(self.df[1])
         plt.plot(dates, self.df[6])
         plt.xlabel('Time [utc]')
         plt.ylabel('Fix quality')
+        ax.xaxis.set_major_formatter(dt.DateFormatter('%H:%M:%S'))
+        plt.gcf().autofmt_xdate()
         plt.savefig('quality_of_signal_plot.png')
         plt.show()
 
     def plot_track(self):
+        fig, ax = plt.subplots()
         plt.plot(self.df[4], self.df[2])
-        plt.xlabel('longitude')
-        plt.ylabel('latitude')
+        ax.ticklabel_format(useOffset=False)
+        plt.xlabel('Longitude')
+        plt.ylabel('Latitude')
         plt.savefig('track_plot.png')
         plt.show()
 
@@ -110,8 +130,11 @@ if __name__ == '__main__':
     nmea = NMEA()
     nmea.import_file('nmea_trimble_gnss_eduquad_flight.txt')
     nmea.print_data()
-    # nmea.plot_height_over_time()
-    # nmea.plot_number_of_satellites_over_time()
-    # nmea.plot_track()
-    nmea.plot_quality_of_signal_over_time()
+    nmea.plot_height_over_time()
+    nmea.plot_number_of_satellites_over_time()
+    nmea.plot_track()
     nmea.export_kml()
+    nmea = NMEA()
+    nmea.import_file('nmea_ublox_neo_24h_static.txt')
+    nmea.print_data()
+    nmea.plot_quality_of_signal_over_time()

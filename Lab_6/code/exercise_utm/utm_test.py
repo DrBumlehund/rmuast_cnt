@@ -42,33 +42,37 @@ from math import pi, cos, sqrt, sin, asin
 uc = utmconv()
 
 # define test position
-test_lat1 = 55.47
-test_lon1 = 010.33
-test_lat2 = 55.46809039111672
-test_lon2 = 010.345481691709665
+test_lat = 55.47
+test_lon = 010.33
 
-test_lat = test_lat2
-test_lon = test_lon2
 print('Test position [deg]:')
 print('  latitude:  %.10f' % test_lat)
 print('  longitude: %.10f' % test_lon)
-
-
-def great_circle_distance(lat1, lon1, lat2, lon2):
-    return asin(sqrt((sin((lat1 - lat2) / 2)) ** 2 + cos(lat1) * cos(lat2) * (sin((lon1 - lon2) / 2)) ** 2))
-
-
-(hemisphere1, zone1, letter1, easting1, northing1) = uc.geodetic_to_utm(test_lat1, test_lon1)
-(hemisphere2, zone2, letter2, easting2, northing2) = uc.geodetic_to_utm(test_lat2, test_lon2)
-d = great_circle_distance(easting1, northing1, easting2, northing2)
-print('\nTest Distance [km]:')
-print('  distance: %.4f km' % d)
-print('  error:    %.3f %%' % (d / 1 * 100 - 100))
 
 # convert from geodetic to UTM
 (hemisphere, zone, letter, easting, northing) = uc.geodetic_to_utm(test_lat, test_lon)
 print('\nConverted from geodetic to UTM [m]')
 print('  %d %c %.5fe %.5fn' % (zone, letter, easting, northing))
+
+
+def great_circle_distance(lat1, lon1, lat2, lon2):
+    return 2 * asin(sqrt(((sin((lat1 - lat2) / 2)) ** 2) + cos(lat1) * cos(lat2) * ((sin((lon1 - lon2) / 2)) ** 2)))
+
+
+e1 = easting + 1000
+n1 = northing + 1000
+
+d_e = great_circle_distance(easting, northing, e1, northing)
+d_n = great_circle_distance(easting, northing, easting, n1)
+err_e = (d_e / 1 * 100 - 100)  # divide by 1, because we know the coordinates are 1 km apart
+err_n = (d_n / 1 * 100 - 100)  # divide by 1, because we know the coordinates are 1 km apart
+print('\nTest Distance [km]:')
+print('  +1 km in easting')
+print('    distance: %.4f km' % d_e)
+print('    error:    %.3f %%' % err_e)
+print('  +1 km in northing')
+print('    distance: %.4f km' % d_n)
+print('    error:    %.3f %%' % err_n)
 
 # convert back from UTM to geodetic
 (lat, lon) = uc.utm_to_geodetic(hemisphere, zone, easting, northing)
