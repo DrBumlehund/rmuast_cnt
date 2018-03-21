@@ -3,14 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ccdab0a3-01a3-4e8d-a378-fbfef2f0e499" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/exercise_nmea_data/export.kml" afterPath="$PROJECT_DIR$/exercise_nmea_data/export.kml" />
-      <change beforePath="$PROJECT_DIR$/exercise_nmea_data/height_time_plot.png" afterPath="$PROJECT_DIR$/exercise_nmea_data/height_time_plot.png" />
-      <change beforePath="$PROJECT_DIR$/exercise_nmea_data/nmea_read.py" afterPath="$PROJECT_DIR$/exercise_nmea_data/nmea_read.py" />
-      <change beforePath="$PROJECT_DIR$/exercise_nmea_data/number_of_satellites_plot.png" afterPath="$PROJECT_DIR$/exercise_nmea_data/number_of_satellites_plot.png" />
-      <change beforePath="$PROJECT_DIR$/exercise_nmea_data/quality_of_signal_plot.png" afterPath="$PROJECT_DIR$/exercise_nmea_data/quality_of_signal_plot.png" />
-      <change beforePath="$PROJECT_DIR$/exercise_nmea_data/script.py" afterPath="$PROJECT_DIR$/exercise_nmea_data/script.py" />
-      <change beforePath="$PROJECT_DIR$/exercise_nmea_data/track_plot.png" afterPath="$PROJECT_DIR$/exercise_nmea_data/track_plot.png" />
-      <change beforePath="$PROJECT_DIR$/exercise_utm/utm_test.py" afterPath="$PROJECT_DIR$/exercise_utm/utm_test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +22,8 @@
       <file leaf-file-name="nmea_read.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/exercise_nmea_data/nmea_read.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="66" />
+            <state relative-caret-position="-357">
+              <caret line="39" column="5" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="5" />
               <folding>
                 <element signature="e#1223#1272#0" expanded="true" />
               </folding>
@@ -43,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/exercise_nmea_data/nmea_trimble_gnss_eduquad_flight.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="6" column="88" lean-forward="true" selection-start-line="6" selection-start-column="88" selection-end-line="6" selection-end-column="88" />
+              <caret line="6" column="88" lean-forward="false" selection-start-line="6" selection-start-column="88" selection-end-line="6" selection-end-column="88" />
               <folding />
             </state>
           </provider>
@@ -52,8 +44,8 @@
       <file leaf-file-name="nmea_ublox_neo_24h_static.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/exercise_nmea_data/nmea_ublox_neo_24h_static.txt">
           <provider selected="true" editor-type-id="LargeFileEditor">
-            <state relative-caret-position="-9928">
-              <caret line="7" column="39" lean-forward="true" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
+            <state relative-caret-position="119">
+              <caret line="7" column="39" lean-forward="false" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -61,7 +53,7 @@
       <file leaf-file-name="script.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/exercise_nmea_data/script.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
+            <state relative-caret-position="476">
               <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="35" selection-end-column="49" />
               <folding>
                 <element signature="e#1222#1271#0" expanded="true" />
@@ -83,7 +75,7 @@
       <file leaf-file-name="utm_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/exercise_utm/utm_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
+            <state relative-caret-position="714">
               <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="45" selection-end-column="17" />
               <folding>
                 <element signature="e#2051#2087#0" expanded="true" />
@@ -316,6 +308,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36630434" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
@@ -323,7 +316,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43369564" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26385927" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26652452" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="false" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="650" y="228" width="619" height="583" />
@@ -701,7 +694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="732" column="8" lean-forward="false" selection-start-line="732" selection-start-column="8" selection-end-line="732" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -716,7 +708,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="31" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="10" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -731,21 +722,21 @@
     <entry file="file://$PROJECT_DIR$/exercise_nmea_data/nmea_trimble_gnss_eduquad_flight.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="88" lean-forward="true" selection-start-line="6" selection-start-column="88" selection-end-line="6" selection-end-column="88" />
+          <caret line="6" column="88" lean-forward="false" selection-start-line="6" selection-start-column="88" selection-end-line="6" selection-end-column="88" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/exercise_nmea_data/nmea_ublox_neo_24h_static.txt">
       <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="-9928">
-          <caret line="7" column="39" lean-forward="true" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
+        <state relative-caret-position="119">
+          <caret line="7" column="39" lean-forward="false" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/exercise_nmea_data/script.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
+        <state relative-caret-position="476">
           <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="35" selection-end-column="49" />
           <folding>
             <element signature="e#1222#1271#0" expanded="true" />
@@ -755,7 +746,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/exercise_utm/utm_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
+        <state relative-caret-position="714">
           <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="45" selection-end-column="17" />
           <folding>
             <element signature="e#2051#2087#0" expanded="true" />
@@ -765,8 +756,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/exercise_nmea_data/nmea_read.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="66" />
+        <state relative-caret-position="-357">
+          <caret line="39" column="5" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="5" />
           <folding>
             <element signature="e#1223#1272#0" expanded="true" />
           </folding>
