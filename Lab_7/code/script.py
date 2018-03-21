@@ -23,7 +23,8 @@
 #       pandas, matplotlib, xlrd, numpy
 #
 
-
+from kml.exportkml import kmlclass
+from utm.utm import utmconv
 import pandas as pd  # for storing data
 import numpy as np  # for math
 from datetime import datetime as time
@@ -34,10 +35,125 @@ import matplotlib.lines as ln
 from math import pi, cos, sqrt, sin, asin
 
 
-class Data:
+class TrackSimplifier:
     def __init__(self):
-        print('hej')
+        self.df = pd.DataFrame()
+        self.time = 0
+
+    def import_data(self, file_name):
+        self.df = pd.read_csv(file_name)
+
+    def print_data(self):
+        print(self.df)
+
+    def plot_track(self, utm=False):
+        print('plotting track')
+        fig, ax = plt.subplots()
+        if utm:
+            plt.plot(self.df['utm_easting'], self.df['utm_northing'])
+        else:
+            plt.plot(self.df['lon'], self.df['lat'])
+        ax.ticklabel_format(useOffset=False)
+        plt.xlabel('Longitude')
+        plt.ylabel('Latitude')
+        plt.savefig('track_plot.png')
+        plt.show()
+
+    def convert_to_utm(self):
+        u = utmconv()
+        # (hemisphere, zone, letter, easting, northing)
+        hemispheres, zones, letters, eastings, northings = [], [], [], [], []
+        for index, row in self.df.iterrows():
+            (hemisphere, zone, letter, easting, northing) = u.geodetic_to_utm(row['lat'], row['lon'])
+            hemispheres.append(hemisphere)
+            zones.append(zone)
+            letters.append(letter)
+            eastings.append(easting)
+            northings.append(northing)
+        self.df['utm_hemisphere'] = hemispheres
+        self.df['utm_zone'] = zones
+        self.df['utm_letter'] = letters
+        self.df['utm_easting'] = eastings
+        self.df['utm_northing'] = northings
+
+    def export_kml(self, file_name, title, description, color):
+        print('Creating the file export.kml')
+        # width: defines the line width, use e.g. 0.1 - 1.0
+        kml = kmlclass()
+        kml.begin(file_name, title, description, 0.1)
+        # color: use 'red' or 'green' or 'blue' or 'cyan' or 'yellow' or 'grey'
+        kml.trksegbegin('', '', color, 'absolute')
+        for i, x in self.df.iterrows():
+            kml.trkpt(x['lat'], x['lon'], x['alt'])
+        kml.trksegend()
+        kml.end()
+
+    def mean_filter(self, k=30, utm=False):
+        label_lat, label_lon = 'lat', 'lon'
+        if utm:
+            label_lat, label_lon = 'utm_northing', 'utm_easting'
+        means_lat, means_lon = [], []
+        for index, row in self.df.iterrows():
+            lower = int(np.max([index - np.floor(k / 2), 0]))
+            upper = int(np.min([index + np.floor(k / 2), self.df.shape[0] - 1]))
+            means_lat.append(np.mean(self.df.iloc[lower:upper][label_lat]))
+            means_lon.append(np.mean(self.df.iloc[lower:upper][label_lon]))
+        self.df[label_lat] = means_lat
+        self.df[label_lon] = means_lon
+
+    def median_filter(self, k=30, utm=False):
+        label_lat, label_lon = 'lat', 'lon'
+        if utm:
+            label_lat, label_lon = 'utm_northing', 'utm_easting'
+        medians_lat, medians_lon = [], []
+        for index, row in self.df.iterrows():
+            lower = int(np.max([index - np.floor(k / 2), 0]))
+            upper = int(np.min([index + np.floor(k / 2), self.df.shape[0] - 1]))
+            medians_lat.append(np.median(self.df.iloc[lower:upper][label_lat]))
+            medians_lon.append(np.median(self.df.iloc[lower:upper][label_lon]))
+        self.df[label_lat] = medians_lat
+        self.df[label_lon] = medians_lon
+
+    def calculate_angles(self):
+        min_t = np.min(self.df['#time_boot'])
+        times, angle_x, angle_y, angle_z = [], [], [], []
+        x, y, z = 0, 0, 0
+        for index, row in self.df.iterrows():
+            t = row['#time_boot'] - min_t
+            delta_t = t - self.time
+            times.append(delta_t)
+            if not np.isnan(row['vx']):
+                x += float((row['vx'] * delta_t) * 180 / np.pi)
+                y += float((row['vy'] * delta_t) * 180 / np.pi)
+                z += float((row['vz'] * delta_t) * 180 / np.pi)
+                angle_x.append(x)
+                angle_y.append(y)
+                angle_z.append(z)
+            else:
+                angle_x.append(np.nan)
+                angle_y.append(np.nan)
+                angle_z.append(np.nan)
+            self.time = t
+        self.df['delta_t'] = times
+        self.df['angle_x'] = angle_x
+        self.df['angle_y'] = angle_y
+        self.df['angle_z'] = angle_z
+
+    def plot_angles(self):
+        plt.plot(self.df['#time_boot'], self.df['angle_x'])
+        plt.show()
 
 
 if __name__ == '__main__':
-    d = Data()
+    d = TrackSimplifier()
+    d.import_data('position_close_space.txt')
+    d.convert_to_utm()
+    d.mean_filter(k=100)
+    d.median_filter(k=100)
+
+    d.plot_track()
+    d.export_kml('close_mean_median_100.kml', 'close_mean_median_100',
+                 'mean and median filtered close data, window 100', 'cyan')
+    d.calculate_angles()
+    d.plot_angles()
+    d.print_data()
