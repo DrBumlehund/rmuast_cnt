@@ -144,6 +144,20 @@ class TrackSimplifier:
         plt.show()
 
 
+    def dp_algorithm(self):
+        # todo: Chris implement dp algoritm
+        print('not yet implemented')
+        
+      
+    def angle_algorithm(self):
+        # todo: Niels ?
+        print('not yet implemented')        
+        
+        
+    def velocity_algorithm(self):
+        # todo: Thomas
+        print('not yet implemented')        
+        
 if __name__ == '__main__':
     d = TrackSimplifier()
     d.import_data('position_close_space.txt')
