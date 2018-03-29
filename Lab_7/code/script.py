@@ -32,7 +32,7 @@ import datetime
 import matplotlib.pyplot as plt  # for plotting
 import matplotlib.dates as dt
 import matplotlib.lines as ln
-from math import pi, cos, sqrt, sin, asin
+from math import pi, cos, sqrt, sin, asin, fabs
 
 
 class TrackSimplifier:
@@ -143,10 +143,42 @@ class TrackSimplifier:
         plt.plot(self.df['#time_boot'], self.df['angle_x'])
         plt.show()
 
+    def pdis(a, b, c):
+        t = b[0] - a[0], b[1] - a[1]  # Vector ab
+        dd = sqrt(t[0] ** 2 + t[1] ** 2)  # Length of ab
+        t = t[0] / dd, t[1] / dd  # unit vector of ab
+        n = -t[1], t[0]  # normal unit vector to ab
+        ac = c[0] - a[0], c[1] - a[1]  # vector ac
+        return fabs(ac[0] * n[0] + ac[1] * n[1])  # Projection of ac to n (the minimum distance)
 
-    def dp_algorithm(self):
+
+    def rdp_algorithm(self, epsilon, indexx, endd): #Ramer-Douglas-Peucker Algorithm.
         # todo: Chris implement dp algoritm
         print('not yet implemented')
+
+        # Find the point with the maximum distance
+        dmax = 0
+        index = indexx
+        end = self.df.size - 1
+        count = 0
+        for index, row in self.df.iterrows():
+            if count == 0:#We skip first row
+                count += 1
+            else:
+                fRow = self.df.iloc[0]
+                eRow = self.df.iloc[end]
+                sPoint = (fRow['lat'],fRow['long'])
+                ePoint = (eRow['lat'],fRow['long'])
+                cPoint = (row['lat'],row['long'])
+                #Get the perpendicular distance, from cPoint to a line between sPoint and ePoint
+                d = self.pdis(sPoint, ePoint, cPoint)
+                #if d > dmax:
+
+
+
+
+
+
         
       
     def angle_algorithm(self):
@@ -156,7 +188,8 @@ class TrackSimplifier:
         
     def velocity_algorithm(self):
         # todo: Thomas
-        print('not yet implemented')        
+        print('not yet implemented')
+
         
 if __name__ == '__main__':
     d = TrackSimplifier()
