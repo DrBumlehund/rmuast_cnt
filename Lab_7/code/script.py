@@ -39,6 +39,7 @@ class TrackSimplifier:
     def __init__(self):
         self.df = pd.DataFrame()
         self.time = 0
+        self.c = 1
 
     def import_data(self, file_name):
         self.df = pd.read_csv(file_name)
@@ -143,64 +144,92 @@ class TrackSimplifier:
         plt.plot(self.df['#time_boot'], self.df['angle_x'])
         plt.show()
 
-    def pdis(a, b, c):
-        t = b[0] - a[0], b[1] - a[1]  # Vector ab
-        dd = sqrt(t[0] ** 2 + t[1] ** 2)  # Length of ab
-        t = t[0] / dd, t[1] / dd  # unit vector of ab
-        n = -t[1], t[0]  # normal unit vector to ab
-        ac = c[0] - a[0], c[1] - a[1]  # vector ac
-        return fabs(ac[0] * n[0] + ac[1] * n[1])  # Projection of ac to n (the minimum distance)
+    @staticmethod
+    # distance function (https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line)
+    def perpendicular_distance(start, end, p):
+        lat, lon = p[0], p[1]
+        lat_1, lon_1 = start[0], start[1]
+        lat_2, lon_2 = end[0], end[1]
+        dist = np.absolute((lat_2 - lat_1) * lon - (lon_2 - lon_1) * lat + lon_2 * lat_1 - lat_2 * lon_1) / np.sqrt(
+            (lat_2 - lat_1) ** 2 + (lon_2 - lon_1) ** 2)
+        return dist
 
-
-    def rdp_algorithm(self, epsilon, indexx, endd): #Ramer-Douglas-Peucker Algorithm.
-        # todo: Chris implement dp algoritm
-        print('not yet implemented')
-
+    # todo: Chris implement dp algoritm
+    def rdp_algorithm(self, epsilon, utm, point_list=None):  # Ramer-Douglas-Peucker Algorithm.
+        label_lat, label_lon = 'lat', 'lon'
+        if utm:
+            label_lat, label_lon = 'utm_northing', 'utm_easting'
         # Find the point with the maximum distance
-        dmax = 0
-        index = indexx
-        end = self.df.size - 1
+        df = point_list
+        if point_list is None:
+            df = self.df
+        d_max = 0
+        index = 0
+        end = df.shape[0] - 1
+        result_list = pd.DataFrame()
         count = 0
-        for index, row in self.df.iterrows():
-            if count == 0:#We skip first row
-                count += 1
-            else:
-                fRow = self.df.iloc[0]
-                eRow = self.df.iloc[end]
-                sPoint = (fRow['lat'],fRow['long'])
-                ePoint = (eRow['lat'],fRow['long'])
-                cPoint = (row['lat'],row['long'])
-                #Get the perpendicular distance, from cPoint to a line between sPoint and ePoint
-                d = self.pdis(sPoint, ePoint, cPoint)
-                #if d > dmax:
+        for i, row in df.iterrows():
+            if 0 < count < end:
+                first_row = df.iloc[0]
+                end_row = df.iloc[end]
+                start_point = (first_row[label_lat], first_row[label_lon])
+                end_point = (end_row[label_lat], end_row[label_lon])
+                current_point = (row[label_lat], row[label_lon])
+                # Get the perpendicular distance, from current_point to a line between start_point and end_point
+                distance = self.perpendicular_distance(start_point, end_point, current_point)
+                if distance > d_max:
+                    index = count
+                    d_max = distance
+            count += 1
 
+        if d_max > epsilon:
+            print('%i) d_max = %.3f, index = %i' % (self.c, d_max, index))
+            self.c += 1
+            rec_result_1 = self.rdp_algorithm(epsilon, utm, df.iloc[0:(index + 1)])
+            rec_result_2 = self.rdp_algorithm(epsilon, utm, df.iloc[index:(end + 1)])
 
+            # build the result list
+            rec_result_1.drop(rec_result_1.tail(1).index, inplace=True)
+            result_list = pd.concat([rec_result_1, rec_result_2])
+        else:
+            result_list = df.iloc[[0, end]]
+           # q print(result_list)
 
+        return result_list
 
+    def ramer_douglas_peucker(self, epsilon, utm=False):
+        self.df = self.rdp_algorithm(epsilon, utm=utm)
 
+    def print_length(self):
+        print('df has %i rows' % self.df.shape[0])
 
-        
-      
     def angle_algorithm(self):
         # todo: Niels ?
-        print('not yet implemented')        
-        
-        
+        print('not yet implemented')
+
     def velocity_algorithm(self):
         # todo: Thomas
         print('not yet implemented')
 
-        
+
 if __name__ == '__main__':
     d = TrackSimplifier()
     d.import_data('position_close_space.txt')
     d.convert_to_utm()
-    d.mean_filter(k=100)
-    d.median_filter(k=100)
+    d.mean_filter(utm=True)
+    d.median_filter(utm=True)
+    #
+    #
+    # d.export_kml('close_mean_median_100.kml', 'close_mean_median_100',
+    #              'mean and median filtered close data, window 100', 'cyan')
+    # d.calculate_angles()
+    # d.plot_angles()
+    # d.print_data()
 
-    d.plot_track()
-    d.export_kml('close_mean_median_100.kml', 'close_mean_median_100',
-                 'mean and median filtered close data, window 100', 'cyan')
-    d.calculate_angles()
-    d.plot_angles()
-    d.print_data()
+    d.print_length()
+    d.ramer_douglas_peucker(0.2, True)
+    d.print_length()
+    # d.print_data()
+    d.export_kml('rdp_close.kml', 'rdp_close',
+                 'green', 'cyan')
+    d.plot_track(utm=True)
