@@ -89,6 +89,37 @@ class TrackSimplifier:
         kml.trksegend()
         kml.end()
 
+    def distance_filter(self, speed=2, utm=False):  # Remove outliers based on max speed in m/s
+        df = self.df
+        label_lat, label_lon = 'lat', 'lon'
+        if utm:
+            label_lat, label_lon = 'utm_northing', 'utm_easting'
+
+        i = 1
+        max = df.index[-1]
+        print(df.index[-1])
+        while i < max:
+            deltaLat = df.iloc[i][label_lat] - df.iloc[i-1][label_lat]
+            deltaLon = df.iloc[i][label_lon] - df.iloc[i-1][label_lon]
+            deltaDistance = np.sqrt(deltaLat**2 + deltaLon**2)
+            deltaTime = df.iloc[i][0] - df.iloc[i-1][0]
+            if deltaTime == 0:
+                deltaSpeed = 0
+            else:
+                deltaSpeed = deltaDistance/deltaTime
+
+            if deltaTime != 0:
+                if deltaSpeed > speed:
+                    df.drop(df.index[i], inplace=True)
+                    df.reindex()
+                    max -= 1
+                else:
+                    i += 1
+            else:
+                i += 1
+
+        self.df = df
+
     def mean_filter(self, k=30, utm=False):
         label_lat, label_lon = 'lat', 'lon'
         if utm:
@@ -215,14 +246,15 @@ class TrackSimplifier:
 
 if __name__ == '__main__':
     d = TrackSimplifier()
-    d.import_data('position_close_space.txt')
+    d.import_data('position_open_space_outlier.txt')
     d.convert_to_utm()
-    d.mean_filter(utm=True)
-    d.median_filter(utm=True)
+    # d.mean_filter(utm=True)
+    # d.median_filter(utm=True)
+    d.print_data()
+    d.distance_filter(speed=2, utm=True)
     d.print_length()
-    d.ramer_douglas_peucker_simplifier(64, utm=True)
+    # d.ramer_douglas_peucker_simplifier(64, utm=True)
     d.print_length()
-    # d.print_data()
-    d.export_kml('output/open_raw.kml', 'open_raw',
-                 '', 'red')
+    #d.print_data()
+    d.export_kml('output/open_raw.kml', 'open_outlier', '', 'blue')
     # d.plot_track('track_plot_0.1.png')
