@@ -203,8 +203,6 @@ class TrackSimplifier:
         rdp_result = pd.DataFrame()
         c = 1
         while rdp_result.shape[0] > target or c == 1:
-            self.c = 1
-
             rdp_result = self.rdp_algorithm(epsilon, utm=utm)
             print('rdp run %i with epsilon = %.1f resulted in %i points' % (c, epsilon, rdp_result.shape[0]))
             epsilon += 0.1
@@ -219,12 +217,12 @@ if __name__ == '__main__':
     d = TrackSimplifier()
     d.import_data('position_close_space.txt')
     d.convert_to_utm()
-    # d.mean_filter(utm=True)
-    # d.median_filter(utm=True)
+    d.mean_filter(utm=True)
+    d.median_filter(utm=True)
     d.print_length()
     d.ramer_douglas_peucker_simplifier(64, utm=True)
     d.print_length()
     # d.print_data()
-    # d.export_kml('open_raw.kml', 'open_raw',
-    #              '', 'red')
+    d.export_kml('output/open_raw.kml', 'open_raw',
+                 '', 'red')
     # d.plot_track('track_plot_0.1.png')
