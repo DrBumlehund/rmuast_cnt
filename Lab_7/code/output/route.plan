@@ -1,6 +1,7 @@
 {
     "fileType": "Plan",
     "geoFence": {
+        "parameters": [],
         "polygon": [],
         "version": 1
     },

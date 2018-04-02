@@ -55,20 +55,23 @@ class qgc:
         rally_points = {}
         points = []
         for i in rally_point_data:
-            point = {}
+            point = [i['lat'], i['lon'], i['alt']]
             points.append(point)
-            # todo: implement rally point stuff
         rally_points['points'] = points
         rally_points['version'] = self.__version
         self.__plan['rallyPoints'] = rally_points
 
-    def __create_geo_fence(self, geo_fence_data):
+    def __create_geo_fence(self, geo_fence_parameters, geo_fence_data):
         geo_fence = {}
+        parameters = []
+        for i in geo_fence_parameters:
+            parameter = {'compId': i['compId'], 'name': i['name'], 'value': i['value']}
+            parameters.append(parameter)
+        geo_fence['parameters'] = parameters
         points = []
         for i in geo_fence_data:
-            point = {}
+            point = [i['lat'], i['lon']]
             points.append(point)
-            # todo: implement geo fence stuff
         geo_fence['polygon'] = points
         geo_fence['version'] = self.__version
         self.__plan['geoFence'] = geo_fence
@@ -86,14 +89,17 @@ class qgc:
         file.write(plan_json)
         file.close()
 
-    def export(self, route_data, file_name='route.plan', geo_fence_data=None, rally_points=None):
+    def export(self, route_data, file_name='route.plan', geo_fence_parameters=None, geo_fence_data=None,
+               rally_points=None):
 
+        if geo_fence_parameters is None:
+            geo_fence_parameters = []
         if geo_fence_data is None:
             geo_fence_data = []
         if rally_points is None:
             rally_points = []
 
-        self.__create_geo_fence(geo_fence_data)
+        self.__create_geo_fence(geo_fence_parameters, geo_fence_data)
         self.__create_mission(route_data)
         self.__create_rally_points(rally_points)
 
