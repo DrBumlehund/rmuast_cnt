@@ -23,6 +23,7 @@
 #       pandas, matplotlib, xlrd, numpy
 #
 
+from qgc_export.qgc_exporter import qgc
 from kml.exportkml import kmlclass
 from utm.utm import utmconv
 import pandas as pd  # for storing data
@@ -43,6 +44,7 @@ class TrackSimplifier:
 
     def import_data(self, file_name):
         self.df = pd.read_csv(file_name)
+        self.__convert_to_utm()
 
     def print_data(self):
         print(self.df)
@@ -60,7 +62,7 @@ class TrackSimplifier:
         plt.savefig(file_name)
         plt.show()
 
-    def convert_to_utm(self):
+    def __convert_to_utm(self):
         u = utmconv()
         # (hemisphere, zone, letter, easting, northing)
         hemispheres, zones, letters, eastings, northings = [], [], [], [], []
@@ -76,6 +78,17 @@ class TrackSimplifier:
         self.df['utm_letter'] = letters
         self.df['utm_easting'] = eastings
         self.df['utm_northing'] = northings
+
+    def __convert_to_geographic(self):
+        u = utmconv()
+        lats, lons = [], []
+        for index, row in self.df.iterrows():
+            (lat, lon) = u.utm_to_geodetic(row['utm_hemisphere'], row['utm_zone'], row['utm_easting'],
+                                           row['utm_northing'])
+            lats.append(lat)
+            lons.append(lon)
+        self.df['lat'] = lats
+        self.df['lon'] = lons
 
     def export_kml(self, file_name, title, description, color):
         print('Creating the file export.kml')
@@ -99,14 +112,14 @@ class TrackSimplifier:
         max = df.index[-1]
         print(df.index[-1])
         while i < max:
-            deltaLat = df.iloc[i][label_lat] - df.iloc[i-1][label_lat]
-            deltaLon = df.iloc[i][label_lon] - df.iloc[i-1][label_lon]
-            deltaDistance = np.sqrt(deltaLat**2 + deltaLon**2)
-            deltaTime = df.iloc[i][0] - df.iloc[i-1][0]
+            deltaLat = df.iloc[i][label_lat] - df.iloc[i - 1][label_lat]
+            deltaLon = df.iloc[i][label_lon] - df.iloc[i - 1][label_lon]
+            deltaDistance = np.sqrt(deltaLat ** 2 + deltaLon ** 2)
+            deltaTime = df.iloc[i][0] - df.iloc[i - 1][0]
             if deltaTime == 0:
                 deltaSpeed = 0
             else:
-                deltaSpeed = deltaDistance/deltaTime
+                deltaSpeed = deltaDistance / deltaTime
 
             if deltaTime != 0:
                 if deltaSpeed > speed:
@@ -132,6 +145,10 @@ class TrackSimplifier:
             means_lon.append(np.mean(self.df.iloc[lower:upper][label_lon]))
         self.df[label_lat] = means_lat
         self.df[label_lon] = means_lon
+        if utm:
+            self.__convert_to_geographic()
+        else:
+            self.__convert_to_utm()
 
     def median_filter(self, k=30, utm=False):
         label_lat, label_lon = 'lat', 'lon'
@@ -145,6 +162,10 @@ class TrackSimplifier:
             medians_lon.append(np.median(self.df.iloc[lower:upper][label_lon]))
         self.df[label_lat] = medians_lat
         self.df[label_lon] = medians_lon
+        if utm:
+            self.__convert_to_geographic()
+        else:
+            self.__convert_to_utm()
 
     def calculate_angles(self):
         min_t = np.min(self.df['#time_boot'])
@@ -185,7 +206,6 @@ class TrackSimplifier:
             (lat_2 - lat_1) ** 2 + (lon_2 - lon_1) ** 2)
         return dist
 
-    # todo: Chris implement dp algoritm
     def rdp_algorithm(self, epsilon, utm, point_list=None):  # Ramer-Douglas-Peucker Algorithm.
         label_lat, label_lon = 'lat', 'lon'
         if utm:
@@ -243,18 +263,27 @@ class TrackSimplifier:
     def print_length(self):
         print('df has %i rows' % self.df.shape[0])
 
+    def export_to_qgc(self):
+        exporter = qgc()
+        route_data = []
+        for i, row in self.df.iterrows():
+            point = {'lat': row['lat'], 'lon': row['lon'], 'alt': row['alt']}
+            route_data.append(point)
+        exporter.export(route_data, file_name='output/route.plan')
+
 
 if __name__ == '__main__':
     d = TrackSimplifier()
     d.import_data('position_open_space_outlier.txt')
-    d.convert_to_utm()
-    # d.mean_filter(utm=True)
-    # d.median_filter(utm=True)
-    d.print_data()
+    d.mean_filter(utm=True)
+    d.median_filter(utm=True)
+    # d.print_data()
+    d.print_length()
     d.distance_filter(speed=2, utm=True)
     d.print_length()
-    # d.ramer_douglas_peucker_simplifier(64, utm=True)
+    d.ramer_douglas_peucker_simplifier(64, utm=True)
     d.print_length()
-    #d.print_data()
-    d.export_kml('output/open_raw.kml', 'open_outlier', '', 'blue')
+    # d.print_data()
+    # d.export_kml('output/open_raw.kml', 'open_outlier', '', 'blue')
     # d.plot_track('track_plot_0.1.png')
+    d.export_to_qgc()

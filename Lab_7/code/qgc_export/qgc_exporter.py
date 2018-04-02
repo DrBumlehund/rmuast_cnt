@@ -20,13 +20,12 @@
 #
 
 import json
-import pandas as pd
 
 
 class qgc:
     def __init__(self):
-        self.version = 1
-        self.plan = {'fileType': 'Plan', 'version': self.version, 'groundStation': 'QGroundControl'}
+        self.__version = 1
+        self.__plan = {'fileType': 'Plan', 'version': self.__version, 'groundStation': 'QGroundControl'}
 
     def __create_mission(self, route_data):
         mission = {}
@@ -50,7 +49,7 @@ class qgc:
         mission['plannedHomePosition'] = [route_data[0]['lat'], route_data[0]['lon'], route_data[0]['alt']]
         mission['vehicleType'] = 2
         mission['version'] = 2
-        self.plan['mission'] = mission
+        self.__plan['mission'] = mission
 
     def __create_rally_points(self, rally_point_data):
         rally_points = {}
@@ -58,9 +57,10 @@ class qgc:
         for i in rally_point_data:
             point = {}
             points.append(point)
+            # todo: implement rally point stuff
         rally_points['points'] = points
-        rally_points['version'] = self.version
-        self.plan['rallyPoints'] = rally_points
+        rally_points['version'] = self.__version
+        self.__plan['rallyPoints'] = rally_points
 
     def __create_geo_fence(self, geo_fence_data):
         geo_fence = {}
@@ -68,9 +68,10 @@ class qgc:
         for i in geo_fence_data:
             point = {}
             points.append(point)
+            # todo: implement geo fence stuff
         geo_fence['polygon'] = points
-        geo_fence['version'] = self.version
-        self.plan['geoFence'] = geo_fence
+        geo_fence['version'] = self.__version
+        self.__plan['geoFence'] = geo_fence
 
     @staticmethod
     def __check_file_name(file_name):
@@ -80,7 +81,7 @@ class qgc:
 
     def __write_file(self, file_name):
         f_name = self.__check_file_name(file_name)
-        plan_json = json.dumps(self.plan, indent=4, sort_keys=True)
+        plan_json = json.dumps(self.__plan, indent=4, sort_keys=True)
         file = open(f_name, 'w')
         file.write(plan_json)
         file.close()
