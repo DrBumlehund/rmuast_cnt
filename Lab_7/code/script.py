@@ -47,7 +47,7 @@ class TrackSimplifier:
     def print_data(self):
         print(self.df)
 
-    def plot_track(self, utm=False):
+    def plot_track(self, file_name='track_plot.png', utm=False):
         print('plotting track')
         fig, ax = plt.subplots()
         if utm:
@@ -57,7 +57,7 @@ class TrackSimplifier:
         ax.ticklabel_format(useOffset=False)
         plt.xlabel('Longitude')
         plt.ylabel('Latitude')
-        plt.savefig('track_plot.png')
+        plt.savefig(file_name)
         plt.show()
 
     def convert_to_utm(self):
@@ -168,6 +168,7 @@ class TrackSimplifier:
         end = df.shape[0] - 1
         result_list = pd.DataFrame()
         count = 0
+        data_index = 0
         for i, row in df.iterrows():
             if 0 < count < end:
                 first_row = df.iloc[0]
@@ -178,12 +179,13 @@ class TrackSimplifier:
                 # Get the perpendicular distance, from current_point to a line between start_point and end_point
                 distance = self.perpendicular_distance(start_point, end_point, current_point)
                 if distance > d_max:
+                    data_index = i
                     index = count
                     d_max = distance
             count += 1
 
         if d_max > epsilon:
-            print('%i) d_max = %.3f, index = %i' % (self.c, d_max, index))
+            # print('%i) d_max = %.3f, index = %i, data_index = %i' % (self.c, d_max, index, data_index))
             self.c += 1
             rec_result_1 = self.rdp_algorithm(epsilon, utm, df.iloc[0:(index + 1)])
             rec_result_2 = self.rdp_algorithm(epsilon, utm, df.iloc[index:(end + 1)])
@@ -193,43 +195,36 @@ class TrackSimplifier:
             result_list = pd.concat([rec_result_1, rec_result_2])
         else:
             result_list = df.iloc[[0, end]]
-           # q print(result_list)
 
         return result_list
 
-    def ramer_douglas_peucker(self, epsilon, utm=False):
-        self.df = self.rdp_algorithm(epsilon, utm=utm)
+    def ramer_douglas_peucker_simplifier(self, target, epsilon_start=0.1, utm=False):
+        epsilon = epsilon_start
+        rdp_result = pd.DataFrame()
+        c = 1
+        while rdp_result.shape[0] > target or c == 1:
+            self.c = 1
+
+            rdp_result = self.rdp_algorithm(epsilon, utm=utm)
+            print('rdp run %i with epsilon = %.1f resulted in %i points' % (c, epsilon, rdp_result.shape[0]))
+            epsilon += 0.1
+            c += 1
+        self.df = rdp_result
 
     def print_length(self):
         print('df has %i rows' % self.df.shape[0])
-
-    def angle_algorithm(self):
-        # todo: Niels ?
-        print('not yet implemented')
-
-    def velocity_algorithm(self):
-        # todo: Thomas
-        print('not yet implemented')
 
 
 if __name__ == '__main__':
     d = TrackSimplifier()
     d.import_data('position_close_space.txt')
     d.convert_to_utm()
-    d.mean_filter(utm=True)
-    d.median_filter(utm=True)
-    #
-    #
-    # d.export_kml('close_mean_median_100.kml', 'close_mean_median_100',
-    #              'mean and median filtered close data, window 100', 'cyan')
-    # d.calculate_angles()
-    # d.plot_angles()
-    # d.print_data()
-
+    # d.mean_filter(utm=True)
+    # d.median_filter(utm=True)
     d.print_length()
-    d.ramer_douglas_peucker(0.2, True)
+    d.ramer_douglas_peucker_simplifier(64, utm=True)
     d.print_length()
     # d.print_data()
-    d.export_kml('rdp_close.kml', 'rdp_close',
-                 'green', 'cyan')
-    d.plot_track(utm=True)
+    # d.export_kml('open_raw.kml', 'open_raw',
+    #              '', 'red')
+    # d.plot_track('track_plot_0.1.png')
