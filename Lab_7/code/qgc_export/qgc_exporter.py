@@ -48,7 +48,7 @@ class qgc:
         mission['items'] = items
         mission['plannedHomePosition'] = [route_data[0]['lat'], route_data[0]['lon'], route_data[0]['alt']]
         mission['vehicleType'] = 2
-        mission['version'] = 2
+        mission['version'] = self.__version
         self.__plan['mission'] = mission
 
     def __create_rally_points(self, rally_point_data):
