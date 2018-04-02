@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>rdp_close</name>
+<description>green</description>
+<Style id="red">
+  <LineStyle>
+    <color>ff0000ff</color>
+    <width>0.1</width>
+  </LineStyle>
+</Style>
+<Style id="green">
+  <LineStyle>
+    <color>ff00ff00</color>
+    <width>0.1</width>
+  </LineStyle>
+</Style>
+<Style id="blue">
+  <LineStyle>
+    <color>ffff0000</color>
+    <width>0.1</width>
+  </LineStyle>
+</Style>
+<Style id="cyan">
+  <LineStyle>
+    <color>ffffff00</color>
+    <width>0.1</width>
+  </LineStyle>
+</Style>
+<Style id="yellow">
+  <LineStyle>
+    <color>ff00ffff</color>
+    <width>0.1</width>
+  </LineStyle>
+</Style>
+<Style id="grey">
+  <LineStyle>
+    <color>ff888888</color>
+    <width>0.1</width>
+  </LineStyle>
+</Style>
+<Placemark>
+<name></name>
+<description></description>
+<styleUrl>#cyan</styleUrl>
+<LineString>
+<altitudeMode>absolute</altitudeMode>
+<coordinates>
+10.4312770000,055.3679867000,21.535
+10.4312119000,055.3685317000,19.684
+10.4312285000,055.3686146000,19.798
+10.4325590000,055.3686689000,18.067
+10.4325674000,055.3685268000,18.069
+10.4326326000,055.3683625000,19.194
+10.4326192000,055.3680632000,17.724
+10.4325999000,055.3680372000,19.841
+10.4312904000,055.3679873000,18.542
+</coordinates>
+</LineString>
+</Placemark>
+</Document>
+</kml>
