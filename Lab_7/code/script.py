@@ -23,17 +23,13 @@
 #       pandas, matplotlib, xlrd, numpy
 #
 
-from qgc_export.qgc_exporter import qgc
-from kml.exportkml import kmlclass
-from utm.utm import utmconv
-import pandas as pd  # for storing data
-import numpy as np  # for math
-from datetime import datetime as time
-import datetime
 import matplotlib.pyplot as plt  # for plotting
-import matplotlib.dates as dt
-import matplotlib.lines as ln
-from math import pi, cos, sqrt, sin, asin, fabs
+import numpy as np  # for math
+import pandas as pd  # for storing data
+
+from kml.exportkml import kmlclass
+from qgc_export.qgc_exporter import qgc
+from utm.utm import utmconv
 
 
 class TrackSimplifier:
@@ -198,7 +194,7 @@ class TrackSimplifier:
 
     @staticmethod
     # distance function (https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line)
-    def perpendicular_distance(start, end, p):
+    def __perpendicular_distance(start, end, p):
         lat, lon = p[0], p[1]
         lat_1, lon_1 = start[0], start[1]
         lat_2, lon_2 = end[0], end[1]
@@ -206,7 +202,7 @@ class TrackSimplifier:
             (lat_2 - lat_1) ** 2 + (lon_2 - lon_1) ** 2)
         return dist
 
-    def rdp_algorithm(self, epsilon, utm, point_list=None):  # Ramer-Douglas-Peucker Algorithm.
+    def __rdp_algorithm(self, epsilon, utm, point_list=None):  # Ramer-Douglas-Peucker Algorithm.
         label_lat, label_lon = 'lat', 'lon'
         if utm:
             label_lat, label_lon = 'utm_northing', 'utm_easting'
@@ -228,7 +224,7 @@ class TrackSimplifier:
                 end_point = (end_row[label_lat], end_row[label_lon])
                 current_point = (row[label_lat], row[label_lon])
                 # Get the perpendicular distance, from current_point to a line between start_point and end_point
-                distance = self.perpendicular_distance(start_point, end_point, current_point)
+                distance = self.__perpendicular_distance(start_point, end_point, current_point)
                 if distance > d_max:
                     data_index = i
                     index = count
@@ -238,8 +234,8 @@ class TrackSimplifier:
         if d_max > epsilon:
             # print('%i) d_max = %.3f, index = %i, data_index = %i' % (self.c, d_max, index, data_index))
             self.c += 1
-            rec_result_1 = self.rdp_algorithm(epsilon, utm, df.iloc[0:(index + 1)])
-            rec_result_2 = self.rdp_algorithm(epsilon, utm, df.iloc[index:(end + 1)])
+            rec_result_1 = self.__rdp_algorithm(epsilon, utm, df.iloc[0:(index + 1)])
+            rec_result_2 = self.__rdp_algorithm(epsilon, utm, df.iloc[index:(end + 1)])
 
             # build the result list
             rec_result_1.drop(rec_result_1.tail(1).index, inplace=True)
@@ -254,7 +250,7 @@ class TrackSimplifier:
         rdp_result = pd.DataFrame()
         c = 1
         while rdp_result.shape[0] > target or c == 1:
-            rdp_result = self.rdp_algorithm(epsilon, utm=utm)
+            rdp_result = self.__rdp_algorithm(epsilon, utm=utm)
             print('rdp run %i with epsilon = %.1f resulted in %i points' % (c, epsilon, rdp_result.shape[0]))
             epsilon += 0.1
             c += 1
