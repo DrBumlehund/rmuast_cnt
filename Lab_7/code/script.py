@@ -277,7 +277,7 @@ if __name__ == '__main__':
     d.print_length()
     d.distance_filter(speed=2, utm=True)
     d.print_length()
-    d.ramer_douglas_peucker_simplifier(64, utm=True)
+    d.ramer_douglas_peucker_simplifier(14, utm=True)
     d.print_length()
     # d.print_data()
     # d.export_kml('output/open_raw.kml', 'open_outlier', '', 'blue')

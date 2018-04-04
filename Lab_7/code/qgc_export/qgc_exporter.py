@@ -34,9 +34,12 @@ class qgc:
         for i in route_data:
             jumpId += 1
             item = {}
+            item['autoContinue'] = True
             item['command'] = 16
             if jumpId == 1:
-                item['command'] = 22
+                item['command'] = 22  # takeoff
+            elif jumpId == len(route_data):
+                item['command'] = 21  # land
             item['doJumpId'] = jumpId
             item['frame'] = 3
             item['params'] = [0, 0, 0, 0, i['lat'], i['lon'], i['alt']]
