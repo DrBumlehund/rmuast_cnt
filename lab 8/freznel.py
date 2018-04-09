@@ -27,20 +27,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.lines as ln
 
-a = 2400000000  # 2.4 GHz
-b = 433000000  # 433 MHz
-c = 5800000000  # 5.8 GHz
+SoL = 299792458  # Speed of Light ~300 km/s
+a = SoL / 2400000000  # 2.4 GHz
+b = SoL / 433000000  # 433 MHz
+c = SoL / 5800000000  # 5.8 GHz
 freqs = {'a': a, 'b': b, 'c': c}
 d1 = list(range(0, 101))
 d2 = d1.copy()
 d2.reverse()
 df = pd.DataFrame({'d1': d1, 'd2': d2})
-
+# df['d1'] = df['d1'] / 1000
+# df['d2'] = df['d2'] / 1000
 for l in ['a', 'b', 'c']:
     f = freqs[l]
     for n in [1, 2, 3]:
         key = "F%i %s" % (n, l)
-        df[key] = np.sqrt((n * f * (df['d1'] * df['d2'])) / (df['d1'] + df['d2']))
+        df[key] = np.sqrt(
+            (n * f * (df['d1'] * df['d2']))
+            /
+            (df['d1'] + df['d2'])
+        )
         key_neg = '-' + key
         df[key_neg] = -1 * df[key]
 
@@ -76,3 +82,5 @@ plt.xlabel('Distance [m]')
 plt.ylabel('Radius [m]')
 plt.savefig('freznel.png')
 plt.show()
+
+print(np.max(df['F1 a']))
